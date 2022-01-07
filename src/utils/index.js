@@ -1,18 +1,35 @@
 const fs = require("fs");
 
-const addMovie = (movieArr, movieObj) => {
+const addMovie = async (collection, movieObj) => {
   try {
-    movieArr.push(movieObj);
-    const stringyObj = JSON.stringify(movieArr);
-    fs.writeFileSync("./storage.json", stringyObj);
+    await collection.insertOne(movieObj);
+    console.log(`Successfully added ${movieObj.title}.`);
   } catch (error) {
     console.log(error);
   }
 };
 
-const listMovies = () => {
+const listMovies = async (collection) => {
   try {
-    console.log(addMovie.movieArr);
+    console.log(await collection.find({}).toArray());
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const updateMovie = async (collection, updateObj) => {
+  await collection.updateOne(
+    { title: updateObj.title },
+    { $set: { title: updateObj.updateValue } }
+    // { title: "1984" },
+    // { $set: { title: "black swan" } }
+  );
+};
+
+const deleteMovie = async (collection, movieObj) => {
+  try {
+    await collection.deleteOne(movieObj);
+    console.log(`Successfully deleted ${movieObj.title}.`);
   } catch (error) {
     console.log(error);
   }
@@ -21,4 +38,6 @@ const listMovies = () => {
 module.exports = {
   addMovie,
   listMovies,
+  updateMovie,
+  deleteMovie,
 };

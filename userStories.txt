@@ -1,0 +1,13 @@
+1. As a user, i want to manage a movie collection to better organise my movie data
+
+    how to store the movie data?
+        Use an array?
+
+2. as a user, i want to add a movie to my collection
+
+    store movies as an object (include title and actor name)
+    add a movie object to an array?
+
+3. As a user, i want to show a list of movies that I have created. 
+
+    console.log the array of movies
