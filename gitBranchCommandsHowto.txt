@@ -1,0 +1,9 @@
+git branch
+git checkout -b <name-of-branch>
+git add .
+git commit -m""
+git push origin <name-of-branch>
+
+
+industry standard is to call the branch:
+enhancement/<nameOfBranch>

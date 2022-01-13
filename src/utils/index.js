@@ -1,35 +1,38 @@
 const fs = require("fs");
+const Movie = require("../models/models");
+const mongoose = require("mongoose");
 
-const addMovie = async (collection, movieObj) => {
+const addMovie = async (movieObj) => {
   try {
-    await collection.insertOne(movieObj);
-    console.log(`Successfully added ${movieObj.title}.`);
+    const newMovie = new Movie(movieObj);
+    await newMovie.save();
   } catch (error) {
     console.log(error);
   }
 };
 
-const listMovies = async (collection) => {
+const listMovies = async () => {
   try {
-    console.log(await collection.find({}).toArray());
+    console.log(await Movie.find({}));
   } catch (error) {
     console.log(error);
   }
 };
 
-const updateMovie = async (collection, updateObj) => {
-  await collection.updateOne(
-    { title: updateObj.title },
-    { $set: { title: updateObj.updateValue } }
-    // { title: "1984" },
-    // { $set: { title: "black swan" } }
+const updateMovie = async (updatedMovie) => {
+  const movie = await Movie.findOneAndUpdate(
+    { title: updatedMovie.title },
+    { title: updatedMovie.updateTitle },
+    { new: true }
   );
+  console.log(`${updatedMovie.title} has been updated to ${movie.title}`);
 };
 
-const deleteMovie = async (collection, movieObj) => {
+const deleteMovie = async (movieTitle) => {
+  console.log(movieTitle);
   try {
-    await collection.deleteOne(movieObj);
-    console.log(`Successfully deleted ${movieObj.title}.`);
+    await Movie.deleteOne(movieTitle);
+    console.log(`Successfully deleted.`);
   } catch (error) {
     console.log(error);
   }

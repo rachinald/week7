@@ -9,39 +9,20 @@ const {
 
 const connection = require("./db/connection");
 
-const command = process.argv[2];
+const command = yargs.argv._[0];
 
 const app = async (args) => {
   console.log(args);
   try {
     if (command === "add") {
-      const movieObj = { title: args.title, actor: args.actor };
-      await connection(addMovie, movieObj);
+      await addMovie({ title: args.title, actor: args.actor });
     } else if (command === "list") {
-      await connection(listMovies);
+      await listMovies();
     } else if (command === "update") {
-      const updateObj = {
-        title: args.title,
-        updateValue: args.updateValue,
-        // title: "hulk",
-        // updateValue: "1984",
-      };
-      console.log(updateObj);
-      await connection(updateMovie, updateObj);
+      await updateMovie({ title: args.title, updateTitle: args.updateTitle });
     } else if (command === "delete") {
-      const deleteM = { title: args.title };
-      await connection(deleteMovie, deleteM);
+      await deleteMovie({ title: args.title });
     }
-
-    // } else if (process.argv[2] === 'list') {
-    //     listMovies();
-    // } else if (process.argv[2] === 'update') {
-    //     updateMovie(movieArr,
-    //                 {title: yargs.argv.title, actor: yargs.argv.actor},
-    //                 {title: yargs.argv.newTitle, actor: yargs.argv.newActor});
-    // } else if (process.argv[2] === 'delete') {
-    //     deleteMovie(movieArr, {title: yargs.argv.title, actor: yargs.argv.actor})
-    // }
   } catch (error) {
     console.log(error);
   }
